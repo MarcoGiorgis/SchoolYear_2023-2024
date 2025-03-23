@@ -1,0 +1,6 @@
+nickname, ip_address, porta
+Bramardi,192.168.1.100,8000
+Ansaldi,192.168.1.118,8000
+Prandi,192.168.1.132,8000
+Cherasco,192.168.1.129,8000
+Broadcast,192.168.1.255,8000

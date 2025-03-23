@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>Nome: <input type="text" size="20" id="nome"></label>
+    <label>Cognome: <input type="text" size="20" id="cognome"></label>
+
+    <div id="anagrafe">
+        <form>
+            <label>Luogo di nascita: <input type="text" size="20" id="Luogo_di_nascita"></label>
+            <label>Data nascita: <input type="text" size="20" id="Data_nascita"></label>
+            <label>Codice fiscale: <input type="text" size="20" id="Codice_fiscale"></label>
+            <br>
+            <label>Indirizzo: <input type="text" size="20" id="Indirizzo"></label>
+            <label>Comune: <input type="text" size="20" id="Comune"></label>
+            <label>Sesso: <input type="text" size="20" id="Sesso"></label>
+            <br>
+            <br>
+        </form>
+    </div>
+    <div id="contatti">
+        <form>
+            <label>Cellulare: <input type="text" size="20" id="Cellulare"></label>
+            <label>Email: <input type="text" size="20" id="Email"></label>
+            <br>
+            <br>
+        </form>
+    </div>
+    <div id="Presa_visione">
+        <form>
+            <label>Presa visione: <input type="checkbox" id="Accettazione_policy"></label>
+            <label for="Accettazione_policy">Policy</label>
+            <br>
+            <br>
+        </form>
+    </div>
+    <div id="Controllo_maggiorenne">
+        <form>
+            <label>Calcola maggiorenne: </label>
+            <button id="calcola">Più vecchio</button>
+        </form>
+    </div>
+</body>
+<script>
+    const nome = document.getElementById("nome");
+    const annoNascita = document.getElementById("Data_nascita");
+    const bottone_calcola = document.getElementById("calcola");
+
+    bottone_calcola.addEventListener("click", function(e) {
+        e.preventDefault();
+        const annoCorrente = new Date().getFullYear();
+        const annoNascitaValue = parseInt(annoNascita.value);
+        const eta = annoCorrente - annoNascitaValue;
+        if (eta >= 18) {
+            alert(nome.value + " è maggiorenne");
+        } else {
+            alert(nome.value + " è minorenne");
+            annoNascita.style.backgroundColor = "blue";
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,29 @@
+{
+	"Costo pagina fisso": 0.01,
+	"Libri":[
+		{ 
+		"Autore": {
+			"cognome": "Collodi",
+			"nome": "Carlo"
+ 			}, 
+		"Titolo": "Pinocchio",
+		"Numero pagine": 150
+		},
+		{ 
+		"Autore": {
+			"cognome": "Perrault",
+			"nome": "Charles"
+ 			}, 
+		"Titolo": "Pollicino",
+		"Numero pagine": 80
+		},
+		{ 
+		"Autore": {
+			"cognome": "Perrault",
+			"nome": "Charles"
+ 			}, 
+		"Titolo": "La bella addormentata nel bosco",
+		"Numero pagine": 50
+		}
+	]
+}

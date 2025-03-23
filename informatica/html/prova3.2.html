@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <label id="labelnome">Nome: <input type="text" size="20" id="nome"></label><br>
+        <label id="labelcognome">Cognome: <input type="text" size="20" id="cognome"></label><br>
+        <input type="submit" id="fsubmit" value="invia">
+    </form>
+    <div id="dmessaggi"></div>
+
+    <script>
+        const nome = document.getElementById("nome");
+        const cognome = document.getElementById("cognome");
+        const labelcognome = document.getElementById("labelcognome");
+        const labelnome = document.getElementById("labelnome");
+        const invio = document.getElementById("fsubmit");
+        const messaggi = document.getElementById("dmessaggi");
+
+        invio.addEventListener("click", function(e){
+            clearForClass("error");
+            e.preventDefault(); //blocca prima del SUBMIT
+            if(nome.value == ""){
+                //let div_errore_nome = document.createElement('div');
+                //div_errore_nome.innerHTML='<p class="error" style="display: inline">Errore: nome vuoto</p>';
+                //messaggi.appendChild(div_errore_nome);
+                labelnome.style.color = 'red';
+                labelnome.insertAdjacentHTML('afterend', '<p class="error" style="display: inline">Errore nome non inserito</p>')
+            } 
+            if(cognome.value == ""){
+                //let div_errore_cognome = document.createElement('div');
+                //div_errore_cognome.innerHTML='<p class="error" style="display: inline">Errore: cognome vuoto</p>';
+                //messaggi.appendChild(div_errore_cognome);
+                labelcognome.style.color = 'red';
+                labelcognome.insertAdjacentHTML('afterend', '<p class="error" style="display: inline">Errore cognome non inserito</p>')
+            }
+            if(nome.value != ""){
+                labelnome.style.color = "black";
+            } 
+            if(cognome.value != ""){
+                labelcognome.style.color = "black";
+            } 
+            if (nome.value != "" && cognome.value != "") {
+                let div_anagrafe = document.createElement('div');
+                div_anagrafe.innerHTML = ' <h2>Anagrafe</h2><form><label for="fname">Luogo di nascita:</label><br><input type="text" id="LuogoDiNascita" name="LuogoDiNascita"><br><label for="lname">Data di anscita:</label><br><input type="text" id="DataDiNascita" name="DataDiNascita"><br><label for="lname">Codice fiscale:</label><br><input type="text" id="cf" name="cf"><br><label for="fname">Indirizzo:</label><br><input type="text" id="Indirizzo" name="Indirizzo"><br><label for="fname">Comune:</label><br><input type="text" id="Comune" name="Comune"><br><label for="fname">Sesso:</label><br><input type="text" id="Sesso" name="Sesso"><button id="Controllo" name="Controllo">Controllo età</button></form>';
+                messaggi.appendChild(div_anagrafe);
+            }
+        });
+
+        //Cancello tutti gli elementi class="error"
+        function clearForClass(classe) {
+            let elem = document.getElementsByClassName(classe);
+            while(elem.length > 0) {
+                elem[0].parentNode.removeChild(elem[0]);
+            }
+        }
+    </script>
+</body>
+</html>

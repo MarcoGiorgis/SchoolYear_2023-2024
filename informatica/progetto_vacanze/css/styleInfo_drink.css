@@ -1,0 +1,61 @@
+/* Stile di base */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* Stile della card */
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 90%;
+    height: 80%;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background-color: white;
+    margin-left: 5%;
+}
+
+/* Stile dell'immagine */
+.card img {
+    width: 30%;
+    object-fit: cover;
+    border-radius: 15px 0 0 15px;
+}
+
+/* Stile del contenuto */
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    width: 60%;
+    text-align: center;
+    margin-left: 2%;
+}
+
+/* Stile del testo */
+.card-content h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 2em; 
+}
+
+.card-content p {
+    margin: 5px 0;
+    font-size: 1.1em; 
+}
+
+.card-content h5 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.8em; 
+}

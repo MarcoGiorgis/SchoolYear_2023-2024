@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <form id="cocktailForm">
+            <label>Nome cocktail: <input type="text" size="20" id="nomecocktail"></label>
+            <input type="submit" id="fsubmit" value="Cerca">
+        </form>
+    </div>
+    <div id="cardCocktail"></div>
+</body>
+<script>
+    const nomeCocktail = document.getElementById("nomecocktail");
+    const invia = document.getElementById("fsubmit");
+
+    invia.addEventListener("click", function (e) {
+        e.preventDefault();
+        cancellaContenutoDiv();
+        let nome = nomeCocktail.value.trim();
+
+        if (nome != "") {
+            console.log(nome)
+            let url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${nome}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(dati => {
+                    datiJson = dati;
+                    console.log(datiJson);
+                    if (datiJson.drinks) { //controllando la lunghezza non funziona datiJson.drinks.length > 0
+                        datiJson.drinks.forEach(riga => {
+                            const divCardCocktail = document.createElement('div');
+                            divCardCocktail.classList.add('card');
+                            divCardCocktail.innerHTML = `
+                                    <form>
+                                        <p>${riga.strDrink}</p>
+                                    <form>
+                                `;
+                            cardCocktail.appendChild(divCardCocktail);
+                        });
+                    } else {
+                        const divErrore = document.createElement('div');
+                        divErrore.classList.add('card');
+                        divErrore.innerHTML = `
+                                    <form>
+                                        <p>Errore</p>
+                                    <form>
+                                `;
+                        cardCocktail.appendChild(divErrore);
+                    }
+                });
+        }
+    });
+
+    function cancellaContenutoDiv() {
+        let divDaSvuotare = document.getElementById("cardCocktail");
+        if (divDaSvuotare) {
+            divDaSvuotare.innerHTML = "";
+        } else {
+            console.log("Il div non esiste.");
+        }
+    }
+</script>
+
+</html>

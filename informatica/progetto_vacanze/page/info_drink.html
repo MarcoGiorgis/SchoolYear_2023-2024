@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giorgis</title>
+    <link rel="stylesheet" href="../css/styleInfo_drink.css">
+</head>
+
+<body>
+    <div id="cardCocktail"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const drinkID = urlParams.get('parametro');
+
+            if (drinkID) {
+                const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drinkID}`;
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        const drink = data.drinks[0];
+                        const divCardCocktail = document.createElement('div');
+                        const ingredienti = visualizzaIngredienti(drink);
+                        divCardCocktail.classList.add('card');
+                        divCardCocktail.innerHTML = `
+                            <img src="${drink.strDrinkThumb}" alt="${drink.strDrink}">
+                            <div class="card-content">
+                                <h2><b>${drink.strDrink}</b></h2>
+                                <p><b>CATEGORIA: </b>${drink.strCategory} - ${drink.strAlcoholic}</p>
+                                <p><b>ISTRUZIONI: </b>${drink.strInstructionsIT}</p>
+                                <h3><b>INGREDIENTI:</b></h3>
+                                ${ingredienti}
+                            </div>
+                        `;
+                        document.getElementById('cardCocktail').appendChild(divCardCocktail);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching drink data:', error);
+                    });
+            }
+        });
+
+        function visualizzaIngredienti(drink) {
+            let num_max_ing = 15;
+            let ingredientiHTML = '';
+
+            for (let i = 1; i <= num_max_ing; i++) {
+                let ingrediente = drink[`strIngredient${i}`];
+
+                if (ingrediente) { //drink diverso da null
+                    ingredientiHTML += `<p>${ingrediente}</p>`;
+                }
+            }
+            return ingredientiHTML;
+        }
+    </script>
+</body>
+</html>

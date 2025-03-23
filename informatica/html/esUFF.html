@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="grafica3.css">-->
+    <style>
+        .card-container {
+            display: flex;
+            /* Utilizza flexbox per allineare le card affiancate */
+            flex-wrap: wrap;
+            /* Consente al contenitore di avvolgere le card quando non ci sono abbastanza spazio */
+            gap: 20px;
+            /* Aggiunge uno spazio tra le card */
+            max-width: 1200px;
+            /* Limita la larghezza massima del contenitore */
+            margin: 0 auto;
+            /* Centra il contenitore nella pagina */
+            justify-content: center;
+        }
+
+        .card {
+            width: 300px;
+            /* Imposta la larghezza della card su metà dello spazio disponibile, meno lo spazio tra le card */
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <label for="cocktail">Scegli un cocktail:</label>
+        <select name="cocktail" id="cocktailSelection"></select>
+        <button type="button" id="button">Cerca cocktail</button>
+    </div>
+    
+    <div id="risultato">
+        <div id="informazioni" class="card-container"></div>
+    </div>
+
+    <script>
+        /*********
+         utilizzo il webserver di VSC 
+         **********/
+        const cocktail = document.getElementById("cocktail")
+        let url = "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=z" //url che punta al json... può essere anche un url sul web
+        //let select_provincia = document.getElementById("select_provincia")
+        //console.log(url)
+
+        let datiJson
+        const button = document.getElementById("button")
+        const select = document.getElementById("cocktailSelection")
+        const informazioni = document.getElementById("informazioni")
+
+        fetch(url)
+            .then(response => response.json())
+            .then(dati => {
+                datiJson = dati;
+                console.log(datiJson);
+                if (datiJson.drinks && datiJson.drinks.length > 0) {
+                    datiJson.drinks.forEach(riga => {
+                        let optionDrink = document.createElement('option');
+                        optionDrink.value = riga.strDrink;
+                        optionDrink.innerHTML = riga.strDrink;
+                        select.appendChild(optionDrink);
+                    });
+                } else {
+                    console.log("Non esistono drink per questa lettera")
+                }
+            });
+
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            cancellaContenutoDiv();
+            let nomeDrink = select.value;
+            console.log(nomeDrink);
+            datiJson.drinks.forEach(riga => {
+                if (riga.strDrink === nomeDrink) {
+                    let informazioniDrink = document.createElement('div');
+                    informazioniDrink.classList.add('card'); 
+                    informazioniDrink.innerHTML = `<img src="${riga.strDrinkThumb}" alt="Avatar" style="width:300px">
+                                                    <div class="card-container">
+                                                        <h4><b>${riga.strDrink} ${riga.strAlcoholic}</b></h4>
+                                                        <p>Drink</p>
+                                                    </div>`;
+                    informazioni.appendChild(informazioniDrink);
+                }
+            });
+        });
+
+        function cancellaContenutoDiv() {
+            let divDaSvuotare = document.getElementById("informazioni");
+            if (divDaSvuotare) {
+                divDaSvuotare.innerHTML = "";
+            } else {
+                console.log("Il div non esiste.");
+            }
+        }
+    </script>
+</body>
+
+</html>

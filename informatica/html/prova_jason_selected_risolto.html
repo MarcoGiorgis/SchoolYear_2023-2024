@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <select id="select_provincia" name="select_provincia">
+        <!-- <option value="Torino">Torino</option>-->
+    </select>
+    <form id="form_provincia">
+        <label for="provincia">Provincia:</label>
+        <input type="text" id="provincia" name="provincia" size="20">
+        <input type="submit" id="submit_provincia" value="Invia">
+    </form>
+    <div id="dmessaggi"></div>
+
+    <script>
+        let somma_abitanti = 0;
+        let max = 0;
+        let max_city;
+        const url = "./comuni_comp.json";
+        const select_provincia = document.getElementById("select_provincia");
+        const form_provincia = document.getElementById("form_provincia");
+        const provincia = document.getElementById("provincia");
+        const messaggi = document.getElementById("dmessaggi");
+
+        fetch(url)
+            .then(response => response.json())
+            .then(dati => {
+                const datiJson = dati;
+                console.log(datiJson);
+
+                datiJson.forEach(riga => {
+                    console.log("--", riga.nome);
+                    if (riga.provincia.nome === "Cuneo") {
+                        console.log("--", riga.nome);
+                        somma_abitanti += riga.popolazione;
+                        if (riga.popolazione > max) {
+                            max = riga.popolazione;
+                            max_city = riga.nome;
+                        }
+                    }
+                });
+                console.log(somma_abitanti);
+                console.log(max_city);
+
+                form_provincia.addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    clearErrors();
+                    if (provincia.value.trim() !== "") {
+                        const provinciaInput = provincia.value.trim();
+                        datiJson.forEach(riga => {
+                            if (riga.provincia.nome == provinciaInput) {
+                                displayProvinciaDetails(riga);
+                            }
+                        });
+                    } else {
+                        displayError("Inserisci il nome della provincia.");
+                    }
+                });
+            }).catch(err => {
+                console.log("Errore")
+            });
+
+        function displayProvinciaDetails(provinciaData) {
+            // Rimuove il vecchio div_provincia se presente
+            const oldDiv = document.getElementById("provincia_details");
+            if (oldDiv) {
+                oldDiv.remove();
+            }
+
+            // Crea il nuovo div_provincia
+            const div_provincia = document.createElement('div');
+            div_provincia.id = "provincia_details";
+
+            // Costruisce il contenuto del div con le informazioni della provincia
+            div_provincia.innerHTML = `
+        <h2>Informazioni Provincia</h2>
+        <p><strong>Nome:</strong> ${provinciaData.provincia.nome}</p>
+        <p><strong>Codice:</strong> ${provinciaData.provincia.codice}</p>
+        <p><strong>Regione:</strong> ${provinciaData.regione.nome}</p>
+        <p><strong>Zona:</strong> ${provinciaData.zona.nome}</p>
+        <p><strong>Sigla:</strong> ${provinciaData.sigla}</p>
+        <p><strong>Codice Catastale:</strong> ${provinciaData.codiceCatastale}</p>
+        <p><strong>Cap:</strong> ${provinciaData.cap.join(', ')}</p>
+        <p><strong>Popolazione:</strong> ${provinciaData.popolazione}</p>
+        `;
+            messaggi.appendChild(div_provincia);
+        }
+
+        function clearErrors() {
+            messaggi.innerHTML = "";
+        }
+
+        function displayError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('error');
+            errorDiv.textContent = message;
+            messaggi.appendChild(errorDiv);
+        }
+
+        /*
+        function createOptionProvincia(valore) {
+            select_provincia.insertAdjacentHTML('beforeend', '<option value="' + valore + '">' + valore + '</option>')
+        }
+
+        select_provincia.addEventListener("change", function (e) {
+            console.log(e.target.value);
+        });
+        */
+    </script>
+</body>
+
+</html>
